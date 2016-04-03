@@ -10,8 +10,8 @@ namespace GOContracts
     [ServiceContract]
     public interface ICallback
     {
-        [OperationContract(IsOneWay = true)]
-        void UpdateGui(GoCallback info);
+        //[OperationContract(IsOneWay = true)]
+        //void UpdateGui(GoCallback info);
     }
     [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IDeck
