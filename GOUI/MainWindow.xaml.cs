@@ -24,5 +24,10 @@ namespace GOUI
         {
             InitializeComponent();
         }
+
+        private void Selector_OnSelected(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
