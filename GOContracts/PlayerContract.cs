@@ -12,36 +12,48 @@ namespace GOContracts
     [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IPlayer
     {
+        /// <summary>
+        /// Gets the player's display name.
+        /// </summary>
         string Name { [OperationContract] get; }
+
+        /// <summary>
+        /// Gets the Guid identity of the player.
+        /// </summary>
         Guid Id { [OperationContract] get; }
-        [OperationContract]
+
+        /// <summary>
+        /// Determines whether a player has a specified card.
+        /// </summary>
+        /// <param name="card">The card to look for.</param>
+        /// <returns>True if the card exists and false if it does not.</returns>
+        /// [OperationContract]
         bool HasCard(ICard card);
     }
+
     [DataContract]
     public class PlayerState : IPlayer
     {
+
+        public PlayerState(string name)
+        {
+            Name = Name;
+            Id = Guid.NewGuid();
+
+            Hand = new List<ICard>();
+        }
         [DataMember]
-        private List<ICard> _handCards;
+        public string Name { get; }
+
         [DataMember]
-        private string _name;
+        public Guid Id { get; }
+
         [DataMember]
-        private Guid _id;
-         
-        [DataMember]
-        public string Name { get { return _name; } }
-        [DataMember]
-        public Guid Id { get { return _id; } }
+        public List<ICard> Hand { get; }
+
         public bool HasCard(ICard card)
         {
-            return _handCards.Any(c => c.Rank == card.Rank);
-        }
-
-
-        PlayerState(string Name, List<ICard> hand)
-        {
-            _name = Name;
-            _id = Guid.NewGuid();
-            _handCards = hand;
+            return Hand.Any(c => c.Equals(card));
         }
     }
 }
