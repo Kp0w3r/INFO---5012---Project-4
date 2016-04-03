@@ -7,32 +7,46 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
-    interface IPlayer
+    public interface IPlayer
     {
+        /// <summary>
+        /// Gets the player's display name.
+        /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Gets the Guid identity of the player.
+        /// </summary>
         Guid Id { get; }
+
+        /// <summary>
+        /// Determines whether a player has a specified card.
+        /// </summary>
+        /// <param name="card">The card to look for.</param>
+        /// <returns>True if the card exists and false if it does not.</returns>
         bool HasCard(ICard card);
     }
 
     public class PlayerState : IPlayer
     {
-        private List<ICard> _handCards;
-        private string _name;
-        private Guid _id;
-         
-        public string Name { get { return _name; } }
-        public Guid Id { get { return _id; } }
-        public bool HasCard(ICard card)
+
+        public PlayerState(string name)
         {
-            return _handCards.Any(c => c.Equals(card));
+            Name = Name;
+            Id = Guid.NewGuid();
+
+            Hand = new List<ICard>();
         }
 
+        public string Name { get; }
 
-        PlayerState(string Name, List<ICard> hand)
+        public Guid Id { get; }
+
+        public List<ICard> Hand { get; }
+
+        public bool HasCard(ICard card)
         {
-            _name = Name;
-            _id = new Guid(Name);
-            _handCards = hand;
+            return Hand.Any(c => c.Equals(card));
         }
     }
 }
