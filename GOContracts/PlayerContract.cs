@@ -9,23 +9,25 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
+    [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IPlayer
     {
         /// <summary>
         /// Gets the player's display name.
         /// </summary>
-        string Name { get; }
+        string Name { [OperationContract] get; }
 
         /// <summary>
         /// Gets the Guid identity of the player.
         /// </summary>
-        Guid Id { get; }
+        Guid Id { [OperationContract] get; }
 
         /// <summary>
         /// Determines whether a player has a specified card.
         /// </summary>
         /// <param name="card">The card to look for.</param>
         /// <returns>True if the card exists and false if it does not.</returns>
+        /// [OperationContract]
         bool HasCard(ICard card);
     }
 
@@ -40,7 +42,6 @@ namespace GOContracts
 
             Hand = new List<ICard>();
         }
-
         [DataMember]
         public string Name { get; }
 
