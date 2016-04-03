@@ -18,7 +18,7 @@ namespace GOServiceHost
             //Code Taken From Cards example
             try
             {
-                servHost = new ServiceHost(typeof(CardsLibrary.Shoe));
+                servHost = new ServiceHost(typeof(GOContracts.IDeck));
 
                 servHost.Open();
                 Console.WriteLine("Shoe service started. Press a key to quit.");
