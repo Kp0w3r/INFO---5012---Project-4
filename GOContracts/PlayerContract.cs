@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +29,7 @@ namespace GOContracts
         bool HasCard(ICard card);
     }
 
+    [DataContract]
     public class PlayerState : IPlayer
     {
 
@@ -38,10 +41,13 @@ namespace GOContracts
             Hand = new List<ICard>();
         }
 
+        [DataMember]
         public string Name { get; }
 
+        [DataMember]
         public Guid Id { get; }
 
+        [DataMember]
         public List<ICard> Hand { get; }
 
         public bool HasCard(ICard card)
