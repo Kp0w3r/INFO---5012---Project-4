@@ -11,7 +11,7 @@ namespace GOContracts
     {
         string Name { get; }
         Guid Id { get; }
-        bool hasCard { get; }
+        bool HasCard(ICard card);
     }
 
     public class PlayerState : IPlayer
@@ -20,13 +20,19 @@ namespace GOContracts
         private string _name;
         private Guid _id;
          
-        public string Name { get; }
-        public Guid Id { get; }
-        public bool hasCard { get; }
-
-        PlayerState(string Name)
+        public string Name { get { return _name; } }
+        public Guid Id { get { return _id; } }
+        public bool HasCard(ICard card)
         {
-            
+            return _handCards.Any(c => c.Equals(card));
+        }
+
+
+        PlayerState(string Name, List<ICard> hand)
+        {
+            _name = Name;
+            _id = new Guid(Name);
+            _handCards = hand;
         }
     }
 }
