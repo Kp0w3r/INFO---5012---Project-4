@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GOContracts
 {
+    [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IPlayer
     {
-        string Name { get; }
-        Guid Id { get; }
+        string Name { [OperationContract] get; }
+        Guid Id { [OperationContract] get; }
+        [OperationContract]
         bool HasCard(ICard card);
     }
     [DataContract]
