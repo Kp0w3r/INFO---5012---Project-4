@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GOContracts\GOContracts.csproj">
+      <Project>{22d89fc1-695a-4d38-b074-0dacd69d5eec}</Project>
+      <Name>GOContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GOGameLogic\GOGameLogic.csproj">
+      <Project>{9ed765f3-a958-4d02-b553-2c0e29568af6}</Project>
+      <Name>GOGameLogic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
