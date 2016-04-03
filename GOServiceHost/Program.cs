@@ -21,7 +21,7 @@ namespace GOServiceHost
                 servHost = new ServiceHost(typeof(GOContracts.IDeck));
 
                 servHost.Open();
-                Console.WriteLine("Shoe service started. Press a key to quit.");
+                Console.WriteLine("Deck service started. Press a key to quit.");
             }
             catch (Exception ex)
             {
