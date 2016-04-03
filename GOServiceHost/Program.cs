@@ -30,8 +30,7 @@ namespace GOServiceHost
             finally
             {
                 Console.ReadKey();
-                if (servHost != null)
-                    servHost.Close();
+                servHost?.Close();
             }
         }
     }
