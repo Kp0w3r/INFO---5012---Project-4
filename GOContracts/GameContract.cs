@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GOContracts
 {
     [ServiceContract(CallbackContract = typeof(ICallback))]
-    interface IGame
+    public interface IGame
     {
         Guid GameId { [OperationContract] get; }
         IList<IPlayer> Players { [OperationContract] get; }
