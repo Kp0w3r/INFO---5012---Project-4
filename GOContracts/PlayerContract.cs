@@ -23,9 +23,9 @@ namespace GOContracts
         Guid Id { [OperationContract] get; }
 
         /// <summary>
-        /// Gets an <see cref="IEnumerable{ICard}"/> of the cards in the player's hand.
+        /// Gets an <see cref="IList{ICard}"/> of the cards in the player's hand.
         /// </summary>
-        IEnumerable<ICard> Hand { [OperationContract] get; }
+        IList<ICard> Hand { [OperationContract] get; }
 
         /// <summary>
         /// Determines whether a player has a specified card.
@@ -50,7 +50,7 @@ namespace GOContracts
         public Guid Id { get; }
 
         [DataMember]
-        public IEnumerable<ICard> Hand { get; }
+        public IList<ICard> Hand { get; }
 
         public bool HasCard(ICard card)
         {
