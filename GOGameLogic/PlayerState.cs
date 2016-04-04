@@ -22,7 +22,7 @@ namespace GOGameLogic
 
         public Guid Id { get; }
 
-        public List<ICard> Hand { get; }
+        public IEnumerable<ICard> Hand { get; }
 
         public bool HasCard(ICard card)
         {

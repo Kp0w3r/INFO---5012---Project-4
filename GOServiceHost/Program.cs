@@ -15,7 +15,7 @@ namespace GOServiceHost
         {
             ServiceHost servHost = null;
 
-            //Code Taken From Cards example
+            //Code Taken From Hand example
             try
             {
                 servHost = new ServiceHost(typeof(GOGameLogic.GoFish));

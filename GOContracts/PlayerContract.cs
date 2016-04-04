@@ -23,6 +23,11 @@ namespace GOContracts
         Guid Id { [OperationContract] get; }
 
         /// <summary>
+        /// Gets an <see cref="IEnumerable{ICard}"/> of the cards in the player's hand.
+        /// </summary>
+        IEnumerable<ICard> Hand { [OperationContract] get; }
+
+        /// <summary>
         /// Determines whether a player has a specified card.
         /// </summary>
         /// <param name="card">The card to look for.</param>
@@ -34,10 +39,19 @@ namespace GOContracts
     [DataContract]
     public class Player : IPlayer
     {
+        public Player()
+        {
+            Hand = new List<ICard>();
+        }
+
         [DataMember]
         public string Name { get; }
         [DataMember]
         public Guid Id { get; }
+
+        [DataMember]
+        public IEnumerable<ICard> Hand { get; }
+
         public bool HasCard(ICard card)
         {
             throw new NotImplementedException();
