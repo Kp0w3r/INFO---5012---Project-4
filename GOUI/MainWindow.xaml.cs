@@ -20,7 +20,8 @@ namespace GOUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    [CallbackBehavior(ConcurrencyMode=ConcurrencyMode.Reentrant, UseSynchronizationContext=false)]
+    public partial class MainWindow : Window, ICallback
     {
         private IGame _game = null;
         public IPlayer playerData = null;
@@ -34,10 +35,19 @@ namespace GOUI
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            DuplexChannelFactory<IGame> deckFactory = new DuplexChannelFactory<IGame>(this, "GameService");
-            _game = deckFactory.CreateChannel();
+            try
+            {
+                DuplexChannelFactory<IGame> deckFactory = new DuplexChannelFactory<IGame>(this, "GameService");
+                _game = deckFactory.CreateChannel();
 
-            playerData = _game.CreatePlayer("TonyGeorge");
+                playerData = _game.CreatePlayer("TonyGeorge");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void OnClosed(object sender, EventArgs eventArgs)
