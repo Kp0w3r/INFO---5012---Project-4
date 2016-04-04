@@ -21,9 +21,24 @@ namespace GOGameLogic
         public Guid GameId { get; }
 
         /// <summary>
+        /// Gets an <see cref="IList{IDeck}"/> containing the card decks played in the game.
+        /// </summary>
+        public IList<IDeck> Decks { get; protected set; }
+
+        /// <summary>
         /// Gets an <see cref="IEnumerable{IPlayer}"/> containing player information for all players in the game.
         /// </summary>
         public IList<IPlayer> Players { get; protected set; }
+
+        /// <summary>
+        /// Gets the minimum number of players supported by the game.
+        /// </summary>
+        public abstract int MinPlayers { get; }
+
+        /// <summary>
+        /// Gets the maximum number of players supported by the game.
+        /// </summary>
+        public abstract int MaxPlayers { get; }
 
         /// <summary>
         /// Creates a new player and returns its instance.
@@ -39,5 +54,9 @@ namespace GOGameLogic
         /// <returns>A bool value indicating whether the player was successfully removed.</returns>
         public abstract bool RemovePlayer(Guid player);
 
+        /// <summary>
+        /// Deals cards to players in a manner aligned with the game type.
+        /// </summary>
+        protected abstract void DealCards();
     }
 }
