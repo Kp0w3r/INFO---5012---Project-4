@@ -45,6 +45,7 @@
     <Compile Include="CardContract.cs" />
     <Compile Include="DeckContract.cs" />
     <Compile Include="GoCallback.cs" />
+    <Compile Include="GameContract.cs" />
     <Compile Include="PlayerContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

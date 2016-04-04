@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace GOContracts
 {
     [DataContract]
-    class GoCallback
+    public class GoCallback
     {
         [DataMember]
         public List<IPlayer> Players { get; set; }

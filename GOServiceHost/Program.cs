@@ -18,10 +18,10 @@ namespace GOServiceHost
             //Code Taken From Cards example
             try
             {
-                servHost = new ServiceHost(typeof(GOContracts.IDeck));
+                servHost = new ServiceHost(typeof(GOGameLogic.GoFish));
 
                 servHost.Open();
-                Console.WriteLine("Deck service started. Press a key to quit.");
+                Console.WriteLine("Game service started. Press a key to quit.");
             }
             catch (Exception ex)
             {

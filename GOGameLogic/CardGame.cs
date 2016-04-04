@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,7 @@ using GOContracts;
 
 namespace GOGameLogic
 {
-    public abstract class CardGame
+    public abstract class CardGame:IGame
     {
 
         protected CardGame()
@@ -58,5 +58,6 @@ namespace GOGameLogic
         /// Deals cards to players in a manner aligned with the game type.
         /// </summary>
         protected abstract void DealCards();
+
     }
 }
