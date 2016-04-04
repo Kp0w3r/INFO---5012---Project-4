@@ -15,6 +15,6 @@ namespace GOContracts
         [OperationContract]
         IPlayer CreatePlayer(string name);
         [OperationContract]
-        bool RemovePlayer(Guid player);
+        bool RemovePlayer(IPlayer player);
     }
 }
