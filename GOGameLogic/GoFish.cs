@@ -29,11 +29,9 @@ namespace GOGameLogic
             return player;
         }
 
-        public override bool RemovePlayer(Guid player)
+        public override bool RemovePlayer(IPlayer player)
         {
-            var selectedPlayer = Players.SingleOrDefault(p => p.Id == player);
-
-            return Players.Remove(selectedPlayer);
+            return Players.Remove(player);
         }
 
         protected override void DealCards()

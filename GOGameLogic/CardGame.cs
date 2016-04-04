@@ -52,7 +52,7 @@ namespace GOGameLogic
         /// </summary>
         /// <param name="player">The guid identity of the player.</param>
         /// <returns>A bool value indicating whether the player was successfully removed.</returns>
-        public abstract bool RemovePlayer(Guid player);
+        public abstract bool RemovePlayer(IPlayer player);
 
         /// <summary>
         /// Deals cards to players in a manner aligned with the game type.
