@@ -24,7 +24,7 @@ namespace GOUI
     public partial class MainWindow : Window, ICallback
     {
         private IGame _game = null;
-        public IPlayer playerData = null;
+        public Player PlayerData = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -38,9 +38,15 @@ namespace GOUI
             try
             {
                 DuplexChannelFactory<IGame> deckFactory = new DuplexChannelFactory<IGame>(this, "GameService");
-                _game = deckFactory.CreateChannel();
+                this._game = deckFactory.CreateChannel();
+                var game = this._game;
+                if (game != null)
+                {
+                    PlayerData = (Player)_game.CreatePlayer("TonyGeorge");
+                    this.DataContext = PlayerData;
+                }
 
-                playerData = _game.CreatePlayer("TonyGeorge");
+                
 
             }
             catch (Exception ex)
@@ -52,11 +58,11 @@ namespace GOUI
 
         private void OnClosed(object sender, EventArgs eventArgs)
         {
-            if (_game != null && playerData != null)
+            if (_game != null && PlayerData != null)
             {
                 try
                 {
-                    _game.RemovePlayer(playerData.Id);
+                    _game.RemovePlayer(PlayerData.Id);
                 }
                 catch (Exception ex)
                 {
@@ -70,6 +76,11 @@ namespace GOUI
 
         private void Selector_OnSelected(object sender, RoutedEventArgs e)
         {
+        }
+
+        public void UpdateGui(GoCallback info)
+        {
+            MessageBox.Show("Do Stuff");
         }
     }
 }

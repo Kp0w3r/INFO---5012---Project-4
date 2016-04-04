@@ -32,12 +32,25 @@ namespace GOContracts
     }
 
     [DataContract]
+    public class Player : IPlayer
+    {
+        [DataMember]
+        public string Name { get; }
+        [DataMember]
+        public Guid Id { get; }
+        public bool HasCard(ICard card)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [DataContract]
     public class PlayerState : IPlayer
     {
 
         public PlayerState(string name)
         {
-            Name = Name;
+            this.Name = name;
             Id = Guid.NewGuid();
 
             Hand = new List<ICard>();
