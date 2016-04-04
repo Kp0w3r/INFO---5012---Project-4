@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
-    [ServiceContract(CallbackContract = typeof(ICallback))]
+    [ServiceContract]
     public interface IPlayer
     {
         /// <summary>
@@ -27,7 +27,7 @@ namespace GOContracts
         /// </summary>
         /// <param name="card">The card to look for.</param>
         /// <returns>True if the card exists and false if it does not.</returns>
-        /// [OperationContract]
+        [OperationContract]
         bool HasCard(ICard card);
     }
 
@@ -41,32 +41,6 @@ namespace GOContracts
         public bool HasCard(ICard card)
         {
             throw new NotImplementedException();
-        }
-    }
-
-    [DataContract]
-    public class PlayerState : IPlayer
-    {
-
-        public PlayerState(string name)
-        {
-            this.Name = name;
-            Id = Guid.NewGuid();
-
-            Hand = new List<ICard>();
-        }
-        [DataMember]
-        public string Name { get; }
-
-        [DataMember]
-        public Guid Id { get; }
-
-        [DataMember]
-        public List<ICard> Hand { get; }
-
-        public bool HasCard(ICard card)
-        {
-            return Hand.Any(c => c.Equals(card));
         }
     }
 }

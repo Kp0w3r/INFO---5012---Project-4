@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GOContracts;
+
+namespace GOGameLogic
+{
+    public class PlayerState : IPlayer
+    {
+
+        public PlayerState(string name)
+        {
+            this.Name = name;
+            Id = Guid.NewGuid();
+
+            Hand = new List<ICard>();
+        }
+
+        public string Name { get; }
+
+        public Guid Id { get; }
+
+        public List<ICard> Hand { get; }
+
+        public bool HasCard(ICard card)
+        {
+            return Hand.Any(c => c.Equals(card));
+        }
+    }
+}
