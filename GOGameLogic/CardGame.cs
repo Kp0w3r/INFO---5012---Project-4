@@ -7,7 +7,7 @@ using GOContracts;
 
 namespace GOGameLogic
 {
-    public abstract class CardGame
+    public abstract class CardGame:IGame
     {
 
         protected CardGame()
