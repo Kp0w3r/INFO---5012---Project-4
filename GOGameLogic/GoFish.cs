@@ -9,6 +9,8 @@ namespace GOGameLogic
 {
     public sealed class GoFish : CardGame
     {
+        private const int CardCount2Players = 7, CardCountMorePlayers = 5;
+
         public GoFish()
         {
             Players = new List<IPlayer>();
@@ -36,7 +38,7 @@ namespace GOGameLogic
 
         protected override void DealCards()
         {
-            int cardCount = (Players.Count > 2) ? 7 : 5;
+            int cardCount = (Players.Count == 2) ? CardCount2Players : CardCountMorePlayers;
 
             var deck = Decks.Single();
 
