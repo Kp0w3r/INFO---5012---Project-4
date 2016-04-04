@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using GOContracts;
@@ -19,7 +20,16 @@ namespace GOGameLogic
         public override int MinPlayers { get; } = 2;
 
         public override int MaxPlayers { get; } = 6;
-
+        
+        public void AskPlayer(IPlayer self, IPlayer target, ICard card)
+        {
+            var cards = target.Hand.Where(c => c.Rank.Equals(card.Rank));
+            foreach (var playerCard in cards)
+            {
+                self.Hand.Add(playerCard);
+            }
+        }
+        
         public override IPlayer CreatePlayer(string name)
         {
             var player = new PlayerState(name);
