@@ -18,6 +18,8 @@ namespace GOContracts
     {
         [OperationContract]
         ICard Draw();
+        [OperationContract]
+        IEnumerable<ICard> Draw(int num);
         [OperationContract(IsOneWay = true)]
         void Shuffle();
         int NumCards { [OperationContract] get; }
@@ -40,11 +42,12 @@ namespace GOContracts
 
         public ICard Draw()
         {
-            var lastCard = Cards.Last();
+            return Cards.Take(1).SingleOrDefault();
+        }
 
-            Cards.Remove(lastCard);
-
-            return lastCard;
+        public IEnumerable<ICard> Draw(int num)
+        {
+            return Cards.Take(num);
         }
 
         public void Shuffle()
