@@ -13,8 +13,8 @@ namespace GOContracts
         Guid GameId { [OperationContract] get; }
         IList<IPlayer> Players { [OperationContract] get; }
         [OperationContract]
-        IPlayer CreatePlayer(string name);
+        Player CreatePlayer(string name);
         [OperationContract]
-        bool RemovePlayer(IPlayer player);
+        bool RemovePlayer(Player player);
     }
 }
