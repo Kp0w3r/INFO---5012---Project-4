@@ -30,18 +30,27 @@ namespace GOGameLogic
             }
         }
         
-        public override IPlayer CreatePlayer(string name)
+        public override Player CreatePlayer(string name)
         {
             var player = new PlayerState(name);
 
             Players.Add(player);
+            Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has joined the game.");
+            Console.WriteLine("Players Left: " + Players.Count);
 
-            return player;
+            return new Player(player.Name, player.Id);
         }
 
-        public override bool RemovePlayer(IPlayer player)
+        public override bool RemovePlayer(Player player)
         {
-            return Players.Remove(player);
+            var PlayerState = (Players as List<IPlayer>).Find(p => p.Id == player.Id);
+            var isRemoved = Players.Remove(PlayerState);
+            if (isRemoved)
+            {
+                Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has left the game.");
+                Console.WriteLine("Players Left: " + Players.Count);
+            }
+            return isRemoved;
         }
 
         protected override void DealCards()

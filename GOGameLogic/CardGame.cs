@@ -45,14 +45,14 @@ namespace GOGameLogic
         /// </summary>
         /// <param name="name">The display name of the player.</param>
         /// <returns>A reference to an <see cref="IPlayer"/> instance of the player created.</returns>
-        public abstract IPlayer CreatePlayer(string name);
+        public abstract Player CreatePlayer(string name);
 
         /// <summary>
         /// Removes a specified player from the game.
         /// </summary>
         /// <param name="player">The guid identity of the player.</param>
         /// <returns>A bool value indicating whether the player was successfully removed.</returns>
-        public abstract bool RemovePlayer(IPlayer player);
+        public abstract bool RemovePlayer(Player player);
 
         /// <summary>
         /// Deals cards to players in a manner aligned with the game type.

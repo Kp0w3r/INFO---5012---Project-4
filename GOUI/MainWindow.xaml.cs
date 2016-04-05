@@ -24,7 +24,7 @@ namespace GOUI
     public partial class MainWindow : Window, ICallback
     {
         private IGame _game = null;
-        public Player PlayerData = null;
+        public IPlayer PlayerData = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -42,7 +42,7 @@ namespace GOUI
                 var game = this._game;
                 if (game != null)
                 {
-                    PlayerData = (Player)_game.CreatePlayer("TonyGeorge");
+                    PlayerData = _game.CreatePlayer("TonyGeorge");
                     this.DataContext = PlayerData;
                 }
 
@@ -62,7 +62,7 @@ namespace GOUI
             {
                 try
                 {
-                    _game.RemovePlayer(PlayerData.Id);
+                    _game.RemovePlayer(PlayerData as Player);
                 }
                 catch (Exception ex)
                 {
@@ -72,15 +72,9 @@ namespace GOUI
 
         }
 
-
-
-        private void Selector_OnSelected(object sender, RoutedEventArgs e)
+        public void UpdateGameState(GoCallback callback)
         {
-        }
-
-        public void UpdateGui(GoCallback info)
-        {
-            MessageBox.Show("Do Stuff");
+            throw new NotImplementedException();
         }
     }
 }
