@@ -11,6 +11,8 @@ namespace GOContracts
     [ServiceContract]
     public interface ICallback
     {
+        [OperationContract]
+        void UpdateGameState(GoCallback callback);
     }
 
     [ServiceContract(CallbackContract = typeof(ICallback))]
