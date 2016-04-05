@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IPlayer
     {
         /// <summary>
@@ -39,22 +39,23 @@ namespace GOContracts
     [DataContract]
     public class Player : IPlayer
     {
-        public Player()
-        {
-            Hand = new List<ICard>();
-        }
 
         [DataMember]
-        public string Name { get; }
+        public string Name { get; private set; }
         [DataMember]
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
 
         [DataMember]
-        public IList<ICard> Hand { get; }
+        public IList<ICard> Hand { get; set; }
 
         public bool HasCard(ICard card)
         {
             throw new NotImplementedException();
+        }
+        public Player(string name, Guid id)
+        {
+            this.Name = name;
+            this.Id = id;
         }
     }
 }
