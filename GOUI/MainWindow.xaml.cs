@@ -43,21 +43,7 @@ namespace GOUI
             try
             {
                 DuplexChannelFactory<IGame> deckFactory = new DuplexChannelFactory<IGame>(this, "GameService");
-                this._game = deckFactory.CreateChannel();
-                var game = this._game;
-                if (game != null)
-                {
-                    PlayerData = _game.CreatePlayer("TonyGeorge");
-                    var players = _game.PlayerStates;
-                    UpdatePlayers(players);
-                    UpdateHand();
-                    PlayerList.DataContext = Players;
-                    CardList.DataContext = PlayerHand;
-                    this.DataContext = PlayerData;
-                }
-
-                
-
+                _game = deckFactory.CreateChannel();
             }
             catch (Exception ex)
             {
@@ -66,6 +52,19 @@ namespace GOUI
 
         }
 
+        public void ConntectPlayer(string name)
+        {
+            if (PlayerData != null)
+            {
+                MessageBox.Show("Already Conntected!!");
+                return;
+            }
+            PlayerData = _game.CreatePlayer(name);
+            var players = _game.PlayerStates;
+            UpdatePlayers(players);
+            UpdateHand();
+            this.DataContext = PlayerData;
+        }
         private void OnClosed(object sender, EventArgs eventArgs)
         {
             if (_game != null && PlayerData != null)
@@ -82,16 +81,49 @@ namespace GOUI
 
         }
 
+        private void AskPlayer()
+        {
+            if (CardList.SelectedItem != null && PlayerList.SelectedItem != null)
+            {
+                if (
+                    !_game.AskPlayer(PlayerData.Id, ((PlayerState) PlayerList.SelectedItem).Id,
+                        (CardList.SelectedItem as Card)))
+                {
+                    MessageBox.Show("FISH !!!");
+                }
+                else
+                {
+                    PlayerData.NumPairs++;
+                }
+            }
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            switch (button.Name)
+            {
+                case "AskButton":
+                    AskPlayer();
+                    break;
+                case "ConnectButton":
+                    ConntectPlayer(NameBox.Text);
+                    break;
+            }
+        }
+
         private void UpdateHand()
         {
             PlayerHand = new ObservableCollection<Card>(_game.GetHand(PlayerData.Id));
             PlayerData.NumHand = PlayerHand.Count();
-            
+            CardList.DataContext = PlayerHand;
+
         }
 
         private void UpdatePlayers(List<PlayerState> players)
         {
             Players = new ObservableCollection<PlayerState>(players.Where(p => !p.Id.Equals(PlayerData.Id)));
+            PlayerList.DataContext = Players;
         }
 
         public void UpdateGameState(GoCallback callback)

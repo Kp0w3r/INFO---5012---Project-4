@@ -18,5 +18,7 @@ namespace GOContracts
         bool RemovePlayer(PlayerState player);
         [OperationContract]
         List<Card> GetHand(Guid playerId);
+        [OperationContract]
+        bool AskPlayer(Guid self, Guid target, Card card);
     }
 }
