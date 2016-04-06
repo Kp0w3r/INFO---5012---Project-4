@@ -24,7 +24,7 @@ namespace GOUI
     public partial class MainWindow : Window, ICallback
     {
         private IGame _game = null;
-        public IPlayer PlayerData = null;
+        public PlayerState PlayerData = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -62,7 +62,7 @@ namespace GOUI
             {
                 try
                 {
-                    _game.RemovePlayer(PlayerData as Player);
+                    _game.RemovePlayer(PlayerData as PlayerState);
                 }
                 catch (Exception ex)
                 {

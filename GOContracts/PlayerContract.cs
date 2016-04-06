@@ -20,29 +20,26 @@ namespace GOContracts
         /// Gets the Guid identity of the player.
         /// </summary>
         Guid Id { get; }
-
-        /// <summary>
-        /// Gets an <see cref="IList{ICard}"/> of the cards in the player's hand.
-        /// </summary>
-        IList<ICard> Hand { get; }
     }
 
     [DataContract]
-    public class Player : IPlayer
+    public class PlayerState : IPlayer
     {
 
         [DataMember]
         public string Name { get; private set; }
         [DataMember]
         public Guid Id { get; private set; }
-
+        public int NumHand { get; private set; }
         [DataMember]
-        public IList<ICard> Hand { get; set; }
+        public int NumPairs { get; private set; }
 
-        public Player(string name, Guid id)
+        public PlayerState(string name, Guid id, int numHand, int numPairs)
         {
             this.Name = name;
             this.Id = id;
+            this.NumHand = numHand;
+            this.NumPairs = numPairs;
         }
     }
 }

@@ -18,17 +18,29 @@ namespace GOContracts
     public class GoCallback
     {
         [DataMember]
-        public List<Player> Players { get; set; }
+        public List<PlayerState> Players { get; set; }
+        [DataMember]
+        public DeckState DeckState { get; private set; }
+
+        public GoCallback(DeckState d, List<PlayerState> p )
+        {
+            this.DeckState = d;
+            this.Players = p;
+        }
+    }
+
+    [DataContract]
+    public class DeckState
+    {
         [DataMember]
         public int NumCards { get; private set; }
         [DataMember]
-        public bool EmptyHand { get; private set; }
+        public bool IsDeckEmpty { get; private set; }
 
-        public GoCallback(int c, bool e, List<Player> p )
+        public DeckState(int c, bool e)
         {
             NumCards = c;
-            EmptyHand = e;
+            IsDeckEmpty = e;
         }
-}
-
     }
+}

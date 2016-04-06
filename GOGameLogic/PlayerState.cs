@@ -7,10 +7,10 @@ using GOContracts;
 
 namespace GOGameLogic
 {
-    public class PlayerState : IPlayer
+    public class Player : IPlayer
     {
 
-        public PlayerState(string name)
+        public Player(string name)
         {
             this.Name = name;
             Id = Guid.NewGuid();

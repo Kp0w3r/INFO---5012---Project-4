@@ -11,10 +11,10 @@ namespace GOContracts
     public interface IGame
     {
         Guid GameId { [OperationContract] get; }
-        IList<IPlayer> Players { [OperationContract] get; }
+        List<PlayerState> PlayerStates { [OperationContract] get; }
         [OperationContract]
-        Player CreatePlayer(string name);
+        PlayerState CreatePlayer(string name);
         [OperationContract]
-        bool RemovePlayer(Player player);
+        bool RemovePlayer(PlayerState player);
     }
 }
