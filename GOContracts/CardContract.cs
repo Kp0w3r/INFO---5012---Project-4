@@ -34,19 +34,17 @@ namespace GOContracts
         [DataMember]
         public RankID Rank { get; private set; }
 
-        public String Name
-        {
-            get
-            {
-                return Rank.ToString() + " of " + Suit.ToString();
-            }
-        }
-
         // Constructor
         public Card(SuitID s, RankID r)
         {
             Suit = s;
             Rank = r;
+        }
+
+        public override string ToString()
+        {
+            return Rank.ToString() + " of " + Suit.ToString();
+
         }
     }
 }
