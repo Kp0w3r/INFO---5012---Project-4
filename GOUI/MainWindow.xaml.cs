@@ -48,8 +48,11 @@ namespace GOUI
                 if (game != null)
                 {
                     PlayerData = _game.CreatePlayer("TonyGeorge");
-                    UpdatePlayers(_game.PlayerStates);
+                    var players = _game.PlayerStates;
+                    UpdatePlayers(players);
                     UpdateHand();
+                    PlayerList.DataContext = Players;
+                    CardList.DataContext = PlayerHand;
                     this.DataContext = PlayerData;
                 }
 
@@ -83,23 +86,17 @@ namespace GOUI
         {
             PlayerHand = new ObservableCollection<Card>(_game.GetHand(PlayerData.Id));
             PlayerData.NumHand = PlayerHand.Count();
-            if (CardList.DataContext != PlayerHand)
-            {
-                CardList.DataContext = PlayerHand;
-            }
+            
         }
 
         private void UpdatePlayers(List<PlayerState> players)
         {
             Players = new ObservableCollection<PlayerState>(players.Where(p => !p.Id.Equals(PlayerData.Id)));
-            if (PlayerList.DataContext != Players)
-            {
-                PlayerList.DataContext = Players;
-            }
         }
 
         public void UpdateGameState(GoCallback callback)
         {
+            if (PlayerData == null) return;
             var currentPlayer = callback.Players.Find(p => p.Id.Equals(PlayerData.Id));
             if (currentPlayer.NumHand != PlayerData.NumHand || currentPlayer.NumPairs != PlayerData.NumPairs)
             {
