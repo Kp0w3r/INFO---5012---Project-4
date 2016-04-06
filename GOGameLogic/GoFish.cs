@@ -108,8 +108,9 @@ namespace GOGameLogic
         private void PerformCall()
         {
             GoCallback cb;
-            PlayerStates.Sort((p1, p2) => p1.NumHand.CompareTo(p2.NumHand));
-            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = PlayerStates.First().Id} : CallBack;
+            var finalStates = PlayerStates;
+            finalStates.Sort((p1, p2) => p1.NumHand.CompareTo(p2.NumHand));
+            cb = IsGameOver ? new GoCallback(Deck.NumCards, finalStates) { IsGameOver = true, Winner = finalStates.First().Id} : CallBack;
             if (ClientCallbacks.Count > 0)
             {
                 foreach (ICallback clientCallback in ClientCallbacks.Values)
