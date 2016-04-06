@@ -54,6 +54,8 @@ namespace GOGameLogic
         /// </summary>
         public abstract int MaxPlayers { get; }
 
+        public bool IsGameOver { get; protected set; }
+
         /// <summary>
         /// Creates a new player and returns its instance.
         /// </summary>
