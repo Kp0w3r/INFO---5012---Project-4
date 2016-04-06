@@ -56,6 +56,8 @@ namespace GOGameLogic
             Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has joined the game.");
             Console.WriteLine("Players Left: " + Players.Count);
 
+            PerformCall();
+
             return new PlayerState(player.Name, player.Id, player.Hand.Count(), 0);
         }
 
@@ -71,6 +73,8 @@ namespace GOGameLogic
             }
 
             ClientCallbacks.Remove(player.Id);
+
+            PerformCall();
 
             return isRemoved;
         }
