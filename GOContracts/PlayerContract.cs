@@ -23,7 +23,9 @@ namespace GOContracts
         Guid Id { get; }
     }
 
-
+    /// <summary>
+    /// Client Side Representation of Player
+    /// </summary>
     [DataContract]
     public class PlayerState : IPlayer, INotifyPropertyChanged
     {
