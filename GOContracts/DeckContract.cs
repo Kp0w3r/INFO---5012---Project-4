@@ -8,13 +8,6 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
-    [ServiceContract]
-    public interface ICallback
-    {
-        [OperationContract]
-        void UpdateGameState(GoCallback callback);
-    }
-
     [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IDeck
     {
