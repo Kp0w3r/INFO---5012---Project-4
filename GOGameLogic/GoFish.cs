@@ -39,6 +39,7 @@ namespace GOGameLogic
 
             if (!player.Hand.Any())
             {
+                IsGameOver = true;
                 PerformCall();
             }
         }
@@ -90,15 +91,20 @@ namespace GOGameLogic
                 foreach (var card in Deck.Draw(cardCount))
                 {
                     player.Hand.Add(card as Card);
+                    CallBack.Winner = player.Id;
                 }
             }
         }
 
         private void PerformCall()
         {
+            GoCallback cb;
+
+            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true } : CallBack;
+
             foreach (var clientCallback in ClientCallbacks.Values)
             {
-                clientCallback.UpdateGameState(CallBack);
+                clientCallback.UpdateGameState(cb);
             }
         }
     }
