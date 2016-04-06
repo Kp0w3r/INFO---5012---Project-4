@@ -11,7 +11,7 @@ namespace GOContracts
     [ServiceContract]
     public interface ICallback
     {
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void UpdateGameState(GoCallback callback);
     }
     [DataContract]
