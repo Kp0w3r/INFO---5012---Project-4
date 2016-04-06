@@ -15,14 +15,18 @@ namespace GOContracts
         void UpdateGameState(GoCallback callback);
     }
     [DataContract]
-    public class GoCallback { 
+    public class GoCallback
+    {
         [DataMember]
         public List<PlayerState> Players { get; set; }
         [DataMember]
         public int CardsInDeck { get; private set; }
 
         [DataMember]
-        public bool IsGameOver { get; set; }      
+        public Guid Winner { get; set; }
+
+        [DataMember]
+        public bool IsGameOver { get; set; }
 
         public GoCallback(int cardsInDeck, List<PlayerState> players)
         {
