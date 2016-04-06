@@ -30,9 +30,15 @@ namespace GOContracts
         public string Name { get; private set; }
         [DataMember]
         public Guid Id { get; private set; }
+        [DataMember]
         public int NumHand { get; private set; }
         [DataMember]
         public int NumPairs { get; private set; }
+
+        public override string ToString()
+        {
+            return Name + ", Hand: " + NumHand + ", Pairs: " + NumPairs;
+        }
 
         public PlayerState(string name, Guid id, int numHand, int numPairs)
         {

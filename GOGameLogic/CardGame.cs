@@ -29,7 +29,13 @@ namespace GOGameLogic
         /// <summary>
         /// Gets an <see cref="IEnumerable{IPlayer}"/> containing player information for all players in the game.
         /// </summary>
-        public List<PlayerState> PlayerStates { get; protected set; }
+        public List<PlayerState> PlayerStates
+        {
+            get
+            {
+                return Players.Select(player => new PlayerState(player.Name, player.Id, player.Hand.Count(), 0)).ToList();
+            }
+        }
 
         /// <summary>
         /// Gets an <see cref="IEnumerable{IPlayer}"/> containing player information for all players in the game.
