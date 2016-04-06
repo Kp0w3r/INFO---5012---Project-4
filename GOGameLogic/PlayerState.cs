@@ -15,14 +15,14 @@ namespace GOGameLogic
             this.Name = name;
             Id = Guid.NewGuid();
 
-            Hand = new List<ICard>();
+            Hand = new List<Card>();
         }
 
         public string Name { get; }
 
         public Guid Id { get; }
 
-        public IList<ICard> Hand { get; }
+        public List<Card> Hand { get; }
 
         public bool HasCard(ICard card)
         {

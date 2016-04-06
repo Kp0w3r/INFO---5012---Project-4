@@ -68,6 +68,11 @@ namespace GOGameLogic
         /// <returns>A bool value indicating whether the player was successfully removed.</returns>
         public abstract bool RemovePlayer(PlayerState player);
 
+        public List<Card> GetHand(Guid playerId)
+        {
+            return Players.Find(p => p.Id.Equals(playerId)).Hand;
+        }
+
         /// <summary>
         /// Deals cards to players in a manner aligned with the game type.
         /// </summary>

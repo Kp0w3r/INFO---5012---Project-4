@@ -85,7 +85,7 @@ namespace GOGameLogic
 
                 foreach (var card in Deck.Draw(cardCount))
                 {
-                    player.Hand.Add(card);
+                    player.Hand.Add(card as Card);
                 }
             }
         }
