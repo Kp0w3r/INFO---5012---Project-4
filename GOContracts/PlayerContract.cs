@@ -63,7 +63,7 @@ namespace GOContracts
 
         public override string ToString()
         {
-            return Name + ", Hand: " + NumHand + ", Pairs: " + NumPairs;
+            return Name + ", Hand: " + NumHand;
         }
 
         public PlayerState(string name, Guid id, int numHand, int numPairs)

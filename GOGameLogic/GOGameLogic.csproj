@@ -44,7 +44,7 @@
     <Compile Include="CardGame.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="GoFish.cs" />
-    <Compile Include="PlayerState.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +52,6 @@
       <Project>{22d89fc1-695a-4d38-b074-0dacd69d5eec}</Project>
       <Name>GOContracts</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
