@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -25,6 +26,7 @@ namespace GOUI
     {
         private IGame _game = null;
         public PlayerState PlayerData = null;
+        public ObservableCollection<PlayerState> Players = new ObservableCollection<PlayerState>(); 
         public MainWindow()
         {
             InitializeComponent();
@@ -43,6 +45,9 @@ namespace GOUI
                 if (game != null)
                 {
                     PlayerData = _game.CreatePlayer("TonyGeorge");
+                    var players = _game.PlayerStates;
+                    Players = new ObservableCollection<PlayerState>(players);
+                    PlayerList.DataContext = Players;
                     this.DataContext = PlayerData;
                 }
 

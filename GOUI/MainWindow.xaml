@@ -25,14 +25,14 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="4" Grid.Column="0" TextAlignment="Left" Text="Name: "/>
-            <TextBlock Margin="4" Grid.Column="1" TextAlignment="Center" Text="{Binding Name, Mode=TwoWay}"/>
+            <TextBlock Margin="4" Grid.Column="1" TextAlignment="Center" Text="{Binding Name, Mode=OneWay}"/>
             <TextBlock Margin="4" Grid.Column="2" TextAlignment="Right"  Text="Client ID: "/>
             <TextBlock Margin="4" Grid.Column="3" TextAlignment="Center" Text="{Binding Id, Mode=OneWay}"/>
         </Grid>
 
-        <ListView Grid.Column="1" Grid.Row="1" Margin="4" x:Name="PlayerList" ItemsSource="{Binding Players, Mode=OneWay}"></ListView>
+        <ListView Grid.Column="1" Grid.Row="1" Margin="4" x:Name="PlayerList" ItemsSource="{Binding Mode=OneWay}"></ListView>
 
-        <ListView Grid.Column="0" Grid.Row="1" Margin="4" x:Name="CardList" ItemsSource="{Binding Hand, Mode=OneWay}"></ListView>
+        <ListView Grid.Column="0" Grid.Row="1" Margin="4" x:Name="CardList" ItemsSource="{Binding Hand}"></ListView>
         
         <Grid Grid.Column="2" Grid.Row="1" Margin="4">
             <Grid.RowDefinitions>
@@ -43,9 +43,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Ask"/>
-            <TextBlock Grid.Row="1" Margin="4" Text="{Binding ElementName=PlayerList, Path=SelectedItem.Name, Mode=OneWay}"/>
+            <TextBlock Grid.Row="1" Margin="4" HorizontalAlignment="Center" Text="{Binding ElementName=PlayerList, Path=SelectedItem.Name, Mode=OneWay}"/>
             <TextBlock Grid.Row="2" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="If They Have A"/>
-            <TextBlock Grid.Row="3" Margin="4" Text="{Binding ElementName=CardList, Path=SelectedItem.Rank, Mode=OneWay}"/>
+            <TextBlock Grid.Row="3" Margin="4" HorizontalAlignment="Center" Text="{Binding ElementName=CardList, Path=SelectedItem.Rank, Mode=OneWay}"/>
             <Button Grid.Row="4" Margin="4" Content="Go"></Button>
         </Grid>
         
