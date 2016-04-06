@@ -31,9 +31,9 @@ namespace GOContracts
         [DataMember]
         public Guid Id { get; private set; }
         [DataMember]
-        public int NumHand { get; private set; }
+        public int NumHand { get; set; }
         [DataMember]
-        public int NumPairs { get; private set; }
+        public int NumPairs { get; set; }
 
         public override string ToString()
         {
