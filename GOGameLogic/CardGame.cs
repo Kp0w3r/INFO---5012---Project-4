@@ -7,8 +7,9 @@ using GOContracts;
 
 namespace GOGameLogic
 {
-    public abstract class CardGame:IGame
+    public abstract class CardGame : IGame
     {
+        protected static Dictionary<Guid, GoCallback> ClientCallbacks;
 
         protected CardGame()
         {
@@ -23,7 +24,7 @@ namespace GOGameLogic
         /// <summary>
         /// Gets an <see cref="IList{IDeck}"/> containing the card decks played in the game.
         /// </summary>
-        public IList<IDeck> Decks { get; protected set; }
+        public Deck Deck { get; protected set; }
 
         /// <summary>
         /// Gets an <see cref="IEnumerable{IPlayer}"/> containing player information for all players in the game.

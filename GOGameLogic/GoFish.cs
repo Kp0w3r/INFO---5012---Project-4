@@ -15,12 +15,14 @@ namespace GOGameLogic
         public GoFish()
         {
             Players = new List<Player>();
+            ClientCallbacks = new Dictionary<Guid, GoCallback>();
+            Deck = new Deck();
         }
 
         public override int MinPlayers { get; } = 2;
 
         public override int MaxPlayers { get; } = 6;
-        
+
         public void AskPlayer(Guid self, Guid target, Card card)
         {
             var player = Players.Find(c => c.Id.Equals(self));
@@ -32,12 +34,15 @@ namespace GOGameLogic
                 targetPlayer.Hand.Remove(playerCard);
             }
         }
-        
+
         public override PlayerState CreatePlayer(string name)
         {
             var player = new Player(name);
-
             Players.Add(player);
+
+            ClientCallbacks.Add(player.Id, new GoCallback(Deck.NumCards, PlayerStates));
+
+
             Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has joined the game.");
             Console.WriteLine("Players Left: " + Players.Count);
 
@@ -54,6 +59,9 @@ namespace GOGameLogic
                 Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has left the game.");
                 Console.WriteLine("Players Left: " + Players.Count);
             }
+
+            ClientCallbacks.Remove(player.Id);
+
             return isRemoved;
         }
 
@@ -61,13 +69,11 @@ namespace GOGameLogic
         {
             int cardCount = (Players.Count == 2) ? CardCount2Players : CardCountMorePlayers;
 
-            var deck = Decks.Single();
-
             foreach (var player in Players)
             {
                 player.Hand.Clear();
 
-                foreach (var card in deck.Draw(cardCount))
+                foreach (var card in Deck.Draw(cardCount))
                 {
                     player.Hand.Add(card);
                 }
