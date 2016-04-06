@@ -20,7 +20,7 @@ namespace GOGameLogic
         public override int MinPlayers { get; } = 2;
 
         public override int MaxPlayers { get; } = 6;
-        
+
         public void AskPlayer(IPlayer self, IPlayer target, ICard card)
         {
             var cards = target.Hand.Where(c => c.Rank.Equals(card.Rank));
@@ -29,7 +29,7 @@ namespace GOGameLogic
                 self.Hand.Add(playerCard);
             }
         }
-        
+
         public override Player CreatePlayer(string name)
         {
             var player = new PlayerState(name);
@@ -43,14 +43,19 @@ namespace GOGameLogic
 
         public override bool RemovePlayer(Player player)
         {
-            var PlayerState = (Players as List<IPlayer>).Find(p => p.Id == player.Id);
-            var isRemoved = Players.Remove(PlayerState);
-            if (isRemoved)
+            var players = Players as List<IPlayer>;
+            if (players != null)
             {
-                Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has left the game.");
-                Console.WriteLine("Players Left: " + Players.Count);
+                var playerState = players.Find(p => p.Id == player.Id);
+                var isRemoved = Players.Remove(playerState);
+                if (isRemoved)
+                {
+                    Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has left the game.");
+                    Console.WriteLine("Players Left: " + Players.Count);
+                }
+                return isRemoved;
             }
-            return isRemoved;
+            return false;
         }
 
         protected override void DealCards()
