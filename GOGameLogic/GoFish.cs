@@ -12,6 +12,9 @@ namespace GOGameLogic
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public sealed class GoFish : CardGame
     {
+        /// <summary>
+        /// Amount of cards each player is dealed
+        /// </summary>
         private const int CardCount2Players = 7, CardCountMorePlayers = 5;
 
         public GoFish()
@@ -21,12 +24,28 @@ namespace GOGameLogic
             Deck = new Deck();
         }
 
+        /// <summary>
+        /// Gets GoCallback DataContracts of current state of the game
+        /// </summary>
         public override GoCallback CallBack => new GoCallback(this.Deck.NumCards, PlayerStates);
 
+        /// <summary>
+        /// Represents Minimum amount of players in game (Currently Not Implemented
+        /// </summary>
         public override int MinPlayers { get; } = 2;
 
+        /// <summary>
+        /// Represents Max amount of players in game (Currently Not Implemented
+        /// </summary>
         public override int MaxPlayers { get; } = 6;
-
+        
+        /// <summary>
+        /// See CardGame
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="target"></param>
+        /// <param name="card"></param>
+        /// <returns></returns>
         public override bool AskPlayer(Guid self, Guid target, Card card)
         {
             var player = Players.Find(c => c.Id.Equals(self));
@@ -53,6 +72,11 @@ namespace GOGameLogic
             return hasCard;
         }
 
+        /// <summary>
+        /// Registers Player to game and callbacks
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public override PlayerState CreatePlayer(string name)
         {
             var player = new Player(name);
@@ -73,6 +97,11 @@ namespace GOGameLogic
             return new PlayerState(player.Name, player.Id, player.Hand.Count(), 0);
         }
 
+        /// <summary>
+        /// Deregisters player from game and callbacks
+        /// </summary>
+        /// <param name="playerState"></param>
+        /// <returns></returns>
         public override bool RemovePlayer(PlayerState playerState)
         {
             var player = Players.Find(p => p.Id == playerState.Id);
@@ -91,6 +120,9 @@ namespace GOGameLogic
             return isRemoved;
         }
 
+        /// <summary>
+        /// Deals Cards to all Players
+        /// </summary>
         protected override void DealCards()
         {
             int cardCount = (Players.Count <= 2) ? CardCount2Players : CardCountMorePlayers;
@@ -105,6 +137,9 @@ namespace GOGameLogic
             }
         }
 
+        /// <summary>
+        /// Calls All Callbacks registered to object
+        /// </summary>
         private void PerformCall()
         {
             GoCallback cb;

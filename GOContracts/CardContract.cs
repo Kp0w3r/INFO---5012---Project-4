@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
-    //Implemented from Card example
     public interface ICard
     {
         Card.SuitID Suit { get; }
         Card.RankID Rank { get; }
     }
 
+    /// <summary>
+    /// Data Contract for card objects
+    /// Implemented from Class Examples
+    /// </summary>
     [DataContract]
     public class Card : ICard
     {
@@ -33,7 +36,6 @@ namespace GOContracts
         [DataMember]
         public RankID Rank { get; private set; }
 
-        // Constructor
         public Card(SuitID s, RankID r)
         {
             Suit = s;

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GOContracts
 {
+    /// <summary>
+    /// Service Contract for game Instance so clients can access the Servicehosts game interface
+    /// </summary>
     [ServiceContract(CallbackContract = typeof(ICallback))]
     public interface IGame
     {

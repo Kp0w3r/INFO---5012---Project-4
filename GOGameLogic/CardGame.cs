@@ -56,6 +56,9 @@ namespace GOGameLogic
         /// </summary>
         public abstract int MaxPlayers { get; }
 
+        /// <summary>
+        /// Indicates weather end game conditions have been met
+        /// </summary>
         public bool IsGameOver { get; protected set; }
 
         /// <summary>
@@ -72,12 +75,26 @@ namespace GOGameLogic
         /// <returns>A bool value indicating whether the player was successfully removed.</returns>
         public abstract bool RemovePlayer(PlayerState player);
 
+        /// <summary>
+        /// Gets players hand as its stored on the service host
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         public List<Card> GetHand(Guid playerId)
         {
             var player = Players.Find(p => p.Id.Equals(playerId)).Hand;
             return player;
         }
 
+
+        /// <summary>
+        /// Allows player to ask other player if they have a specific card
+        /// If target player does not have the card in question or the deck is empty, Method retruns false
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="target"></param>
+        /// <param name="card"></param>
+        /// <returns></returns>
         public abstract bool AskPlayer(Guid self, Guid target, Card card);
 
         /// <summary>

@@ -7,54 +7,73 @@ using GOContracts;
 
 namespace GOGameLogic
 {
-    public class Deck : IDeck
+    public class Deck
     {
         private Random _rand;
+        private IList<ICard> _cards; 
 
         public Deck()
         {
             _rand = new Random();
 
-            Cards = new List<ICard>();
+            _cards = new List<ICard>();
 
             foreach (var suitId in Enum.GetValues(typeof(Card.SuitID)))
             {
                 foreach (var rankId in Enum.GetValues(typeof(Card.RankID)))
                 {
-                    Cards.Add(new Card((Card.SuitID)suitId, (Card.RankID)rankId));
+                    _cards.Add(new Card((Card.SuitID)suitId, (Card.RankID)rankId));
                 }
             }
 
             Shuffle();
         }
 
-        public int NumCards => Cards.Count;
+        /// <summary>
+        /// Returns number of cards left in Deck
+        /// </summary>
+        public int NumCards => _cards.Count;
 
-        public IList<ICard> Cards { get; }
+        /// <summary>
+        /// Returns Cards within deck
+        /// </summary>
+        public IList<ICard> Cards => _cards;
 
+        /// <summary>
+        /// Draws One Card and Removes it from the deck
+        /// </summary>
+        /// <returns></returns>
         public ICard Draw()
         {
-            if (Cards.Count > 0)
+            if (_cards.Count > 0)
             {
-                var card = Cards.Take(1).SingleOrDefault();
-                Cards.Remove(card);
+                var card = _cards.Take(1).SingleOrDefault();
+                _cards.Remove(card);
                 return card;
             }
             return null;
         }
 
+        /// <summary>
+        /// Draws multiple cards at once determined by num param
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public IEnumerable<ICard> Draw(int num)
         {
-            var cards = Cards.Take(num);
+            var cards = _cards.Take(num);
 
             var cardArray = cards as ICard[] ?? cards.ToArray();
             foreach (var card in cardArray)
             {
-                Cards.Remove(card);
+                _cards.Remove(card);
             }
             return cardArray;
         }
 
+        /// <summary>
+        /// Shuffles cards within deckObject
+        /// </summary>
         public void Shuffle()
         {
             for (int i = 0; i < Cards.Count; i++)

@@ -11,12 +11,19 @@ namespace GOContracts
     [ServiceContract]
     public interface ICallback
     {
+        /// <summary>
+        /// Updates data on client side with contents of DataContract
+        /// </summary>
+        /// <param name="callback"></param>
         [OperationContract(IsOneWay = true)]
         void UpdateGameState(GoCallback callback);
     }
+
+
     [DataContract]
     public class GoCallback
     {
+
         [DataMember]
         public List<PlayerState> Players { get; set; }
         [DataMember]

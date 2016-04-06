@@ -23,6 +23,7 @@ namespace GOContracts
         Guid Id { get; }
     }
 
+
     [DataContract]
     public class PlayerState : IPlayer, INotifyPropertyChanged
     {
@@ -71,6 +72,9 @@ namespace GOContracts
             this._numPairs = numPairs;
         }
 
+        /// <summary>
+        /// Updates binding on Clientside
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         internal void PlayerPropertyChanged(string prop)

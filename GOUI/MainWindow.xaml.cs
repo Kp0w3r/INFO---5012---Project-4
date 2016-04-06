@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Odbc;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using GOContracts;
 
 namespace GOUI
@@ -38,6 +28,12 @@ namespace GOUI
             this.Closed += OnClosed;
         }
 
+
+        /// <summary>
+        /// Initializes connection with Service Host on application launch
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="routedEventArgs"></param>
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             try
@@ -49,21 +45,13 @@ namespace GOUI
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
 
-        public void ConntectPlayer(string name)
-        {
-            if (PlayerData != null)
-            {
-                MessageBox.Show("Already Conntected!!");
-                return;
-            }
-            PlayerData = _game.CreatePlayer(name);
-            var players = _game.PlayerStates;
-            UpdatePlayers(players);
-            UpdateHand();
-        }
+        /// <summary>
+        /// Calls RemovePlayer to deregister client from callback updates on the service host before closing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
         private void OnClosed(object sender, EventArgs eventArgs)
         {
             if (_game != null && PlayerData != null)
@@ -77,9 +65,30 @@ namespace GOUI
                     MessageBox.Show(ex.Message);
                 }
             }
-
         }
 
+        /// <summary>
+        /// Calls CreatePlayer method on service host to register player with game
+        /// </summary>
+        /// <param name="name"></param>
+        public void ConntectPlayer(string name)
+        {
+            if (PlayerData != null)
+            {
+                MessageBox.Show("Already Conntected!!");
+                return;
+            }
+            PlayerData = _game.CreatePlayer(name);
+            var players = _game.PlayerStates;
+            UpdatePlayers(players);
+            UpdateHand();
+        }
+
+
+
+        /// <summary>
+        /// Calls Service hosts AskPlayer Method to see if the selected player has the selected card
+        /// </summary>
         private void AskPlayer()
         {
             if (CardList.SelectedItem != null && PlayerList.SelectedItem != null)
@@ -90,19 +99,17 @@ namespace GOUI
                         (CardList.SelectedItem as Card));
                     if (!hasCard)
                     {
-                        MessageBox.Show("FISH !!!");
+                        MessageBox.Show("Go FISH !!!");
                     }
                     else
                     {
                         PlayerData.NumPairs++;
                     }
-
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-
             }
             else
             {
@@ -110,35 +117,43 @@ namespace GOUI
             }
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Updates Players Current Hand and rebinds it
+        /// </summary>
+        private void UpdateHand()
         {
-            Button button = (Button)sender;
-            switch (button.Name)
+            try
             {
-                case "AskButton":
-                    AskPlayer();
-                    break;
-                case "ConnectButton":
-                    ConntectPlayer(NameBox.Text);
-                    break;
+                PlayerHand = new ObservableCollection<Card>(_game.GetHand(PlayerData.Id));
+                PlayerData.NumHand = PlayerHand.Count();
+                CardList.DataContext = PlayerHand;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
-        private void UpdateHand()
-        {
-            PlayerHand = new ObservableCollection<Card>(_game.GetHand(PlayerData.Id));
-            PlayerData.NumHand = PlayerHand.Count();
-            CardList.DataContext = PlayerHand;
-
-        }
-
+        /// <summary>
+        /// Updates List of Players and rebinds them
+        /// </summary>
+        /// <param name="players"></param>
         private void UpdatePlayers(List<PlayerState> players)
         {
             Players = new ObservableCollection<PlayerState>(players.Where(p => !p.Id.Equals(PlayerData.Id)));
             PlayerList.DataContext = Players;
         }
 
+
+
+
+
+
         private delegate void ClientUpdateDelegate(GoCallback callback);
+        /// <summary>
+        /// Updates Client Gamestate
+        /// </summary>
+        /// <param name="callback"></param>
         public void UpdateGameState(GoCallback callback)
         {
 
@@ -160,13 +175,11 @@ namespace GOUI
                         if (callback.Winner == PlayerData.Id)
                         {
                             end += "You Win!!";
-
                         }
                         else
                         {
                             end += "You LOOSE";
                         }
-
                         MessageBox.Show(end);
                     }
                 };
@@ -175,6 +188,26 @@ namespace GOUI
             else
             {
                 this.Dispatcher.BeginInvoke(new ClientUpdateDelegate(UpdateGameState), callback);
+            }
+        }
+
+
+        /// <summary>
+        /// Button Listener for Window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            switch (button.Name)
+            {
+                case "AskButton":
+                    AskPlayer();
+                    break;
+                case "ConnectButton":
+                    ConntectPlayer(NameBox.Text);
+                    break;
             }
         }
     }
