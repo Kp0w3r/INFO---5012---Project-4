@@ -16,6 +16,14 @@ namespace GOGameLogic
             _rand = new Random();
 
             Cards = new List<ICard>();
+
+            foreach (var suitId in Enum.GetValues(typeof(Card.SuitID)))
+            {
+                foreach (var rankId in Enum.GetValues(typeof(Card.RankID)))
+                {
+                    Cards.Add(new Card((Card.SuitID)suitId, (Card.RankID)rankId));
+                }
+            }
         }
 
         public int NumCards => Cards.Count;
