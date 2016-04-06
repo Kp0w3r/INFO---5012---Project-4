@@ -47,7 +47,6 @@ namespace GOGameLogic
             if (Deck.NumCards == 0)
             {
                 IsGameOver = true;
-                CallBack.Winner = targetPlayer.Id;
                 return false;
             }
 
@@ -109,13 +108,16 @@ namespace GOGameLogic
         private void PerformCall()
         {
             GoCallback cb;
-
-            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = CallBack.Winner } : CallBack;
-
-            foreach (ICallback clientCallback in ClientCallbacks.Values)
+            PlayerStates.Sort((p1, p2) => p1.NumHand.CompareTo(p2.NumHand));
+            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = PlayerStates.First().Id} : CallBack;
+            if (ClientCallbacks.Count > 0)
             {
-                clientCallback.UpdateGameState(cb);
+                foreach (ICallback clientCallback in ClientCallbacks.Values)
+                {
+                    clientCallback.UpdateGameState(cb);
+                }
             }
+
         }
     }
 }

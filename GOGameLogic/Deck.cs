@@ -34,9 +34,13 @@ namespace GOGameLogic
 
         public ICard Draw()
         {
-            var card = Cards.Take(1).SingleOrDefault();
-            Cards.Remove(card);
-            return card;
+            if (Cards.Count > 0)
+            {
+                var card = Cards.Take(1).SingleOrDefault();
+                Cards.Remove(card);
+                return card;
+            }
+            return null;
         }
 
         public IEnumerable<ICard> Draw(int num)
