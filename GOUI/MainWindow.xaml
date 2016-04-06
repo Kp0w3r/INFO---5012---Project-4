@@ -59,7 +59,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Margin="4" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Margin="4" Grid.Column="0" Grid.Row="0" TextAlignment="Center" Text="{Binding NumDeck, Mode=OneWay}"/>
             <TextBlock Margin="4" Grid.Column="0" Grid.Row="1" TextAlignment="Center" Text="Cards in Deck"/>
             <TextBlock Margin="4" Grid.Column="1" Grid.Row="0" TextAlignment="Center" Text="{Binding NumHand, Mode=OneWay}"/>
             <TextBlock Margin="4" Grid.Column="1" Grid.Row="1" TextAlignment="Center"  Text="Cards in Hand"/>

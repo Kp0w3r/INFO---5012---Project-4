@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Odbc;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -26,7 +27,9 @@ namespace GOUI
     {
         private IGame _game = null;
         public PlayerState PlayerData = null;
-        public ObservableCollection<PlayerState> Players = new ObservableCollection<PlayerState>(); 
+        public ObservableCollection<PlayerState> Players = new ObservableCollection<PlayerState>();
+        public ObservableCollection<Card> PlayerHand = new ObservableCollection<Card>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,9 +48,8 @@ namespace GOUI
                 if (game != null)
                 {
                     PlayerData = _game.CreatePlayer("TonyGeorge");
-                    var players = _game.PlayerStates;
-                    Players = new ObservableCollection<PlayerState>(players);
-                    PlayerList.DataContext = Players;
+                    UpdatePlayers(_game.PlayerStates);
+                    UpdateHand();
                     this.DataContext = PlayerData;
                 }
 
@@ -77,9 +79,33 @@ namespace GOUI
 
         }
 
+        private void UpdateHand()
+        {
+            PlayerHand = new ObservableCollection<Card>(_game.GetHand(PlayerData.Id));
+            PlayerData.NumHand = PlayerHand.Count();
+            if (CardList.DataContext != PlayerHand)
+            {
+                CardList.DataContext = PlayerHand;
+            }
+        }
+
+        private void UpdatePlayers(List<PlayerState> players)
+        {
+            Players = new ObservableCollection<PlayerState>(players.Where(p => !p.Id.Equals(PlayerData.Id)));
+            if (PlayerList.DataContext != Players)
+            {
+                PlayerList.DataContext = Players;
+            }
+        }
+
         public void UpdateGameState(GoCallback callback)
         {
-            throw new NotImplementedException();
+            var currentPlayer = callback.Players.Find(p => p.Id.Equals(PlayerData.Id));
+            if (currentPlayer.NumHand != PlayerData.NumHand || currentPlayer.NumPairs != PlayerData.NumPairs)
+            {
+                UpdateHand();
+            }
+            UpdatePlayers(callback.Players);
         }
     }
 }
