@@ -9,6 +9,7 @@ using GOContracts;
 
 namespace GOGameLogic
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public sealed class GoFish : CardGame
     {
         private const int CardCount2Players = 7, CardCountMorePlayers = 5;

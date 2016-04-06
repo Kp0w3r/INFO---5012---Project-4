@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using GOContracts;
 
 namespace GOGameLogic
 {
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public abstract class CardGame : IGame
     {
         protected static Dictionary<Guid, ICallback> ClientCallbacks;
