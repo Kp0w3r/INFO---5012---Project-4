@@ -34,12 +34,21 @@ namespace GOGameLogic
 
         public ICard Draw()
         {
-            return Cards.Take(1).SingleOrDefault();
+            var card = Cards.Take(1).SingleOrDefault();
+            Cards.Remove(card);
+            return card;
         }
 
         public IEnumerable<ICard> Draw(int num)
         {
-            return Cards.Take(num);
+            var cards = Cards.Take(num);
+
+            var cardArray = cards as ICard[] ?? cards.ToArray();
+            foreach (var card in cardArray)
+            {
+                Cards.Remove(card);
+            }
+            return cardArray;
         }
 
         public void Shuffle()
