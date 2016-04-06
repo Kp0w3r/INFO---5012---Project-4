@@ -24,6 +24,8 @@ namespace GOGameLogic
                     Cards.Add(new Card((Card.SuitID)suitId, (Card.RankID)rankId));
                 }
             }
+
+            Shuffle();
         }
 
         public int NumCards => Cards.Count;
