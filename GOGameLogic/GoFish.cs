@@ -100,7 +100,7 @@ namespace GOGameLogic
         {
             GoCallback cb;
 
-            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true } : CallBack;
+            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = CallBack.Winner} : CallBack;
 
             foreach (var clientCallback in ClientCallbacks.Values)
             {
