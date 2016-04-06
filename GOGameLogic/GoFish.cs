@@ -31,8 +31,8 @@ namespace GOGameLogic
         {
             var player = Players.Find(c => c.Id.Equals(self));
             var targetPlayer = Players.Find(c => c.Id.Equals(target));
-            var cards = targetPlayer.Hand.Where(c => c.Rank.Equals(card.Rank));
-            var hasCard = targetPlayer.HasCard(card);
+            var cards = targetPlayer.Hand.Where(c => c.Rank.Equals(card.Rank)).ToList();
+            var hasCard = (cards.Any());
             if (hasCard == false)
             {
                 player.Hand.Add(Deck.Draw() as Card);
@@ -42,11 +42,12 @@ namespace GOGameLogic
                 player.Hand.Add(playerCard);
                 targetPlayer.Hand.Remove(playerCard);
             }
+            PerformCall();
 
-            if (!player.Hand.Any())
+            if (Deck.NumCards == 0)
             {
                 IsGameOver = true;
-                PerformCall();
+                CallBack.Winner = targetPlayer.Id;
                 return false;
             }
 
@@ -93,7 +94,7 @@ namespace GOGameLogic
 
         protected override void DealCards()
         {
-            int cardCount = (Players.Count == 2) ? CardCount2Players : CardCountMorePlayers;
+            int cardCount = (Players.Count <= 2) ? CardCount2Players : CardCountMorePlayers;
 
             foreach (var player in Players)
             {
@@ -101,7 +102,6 @@ namespace GOGameLogic
                 foreach (var card in Deck.Draw(draw))
                 {
                     player.Hand.Add(card as Card);
-                    CallBack.Winner = player.Id;
                 }
             }
         }

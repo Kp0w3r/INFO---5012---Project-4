@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
@@ -23,17 +24,39 @@ namespace GOContracts
     }
 
     [DataContract]
-    public class PlayerState : IPlayer
+    public class PlayerState : IPlayer, INotifyPropertyChanged
     {
-
+        private int _numHand = 0;
+        private int _numPairs = 0;
         [DataMember]
         public string Name { get; private set; }
         [DataMember]
         public Guid Id { get; private set; }
         [DataMember]
-        public int NumHand { get; set; }
+        public int NumHand {
+            get { return _numHand; }
+            set
+            {
+                if (_numHand != value)
+                {
+                    _numHand = value;
+                    PlayerPropertyChanged("NumHand");
+                }
+            }
+        }
         [DataMember]
-        public int NumPairs { get; set; }
+        public int NumPairs
+        {
+            get { return _numPairs; }
+            set
+            {
+                if (_numPairs != value)
+                {
+                    _numPairs = value;
+                    PlayerPropertyChanged("NumPairs");
+                }
+            }
+        }
 
         public override string ToString()
         {
@@ -44,8 +67,15 @@ namespace GOContracts
         {
             this.Name = name;
             this.Id = id;
-            this.NumHand = numHand;
-            this.NumPairs = numPairs;
+            this._numHand = numHand;
+            this._numPairs = numPairs;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        internal void PlayerPropertyChanged(string prop)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

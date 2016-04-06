@@ -63,7 +63,6 @@ namespace GOUI
             var players = _game.PlayerStates;
             UpdatePlayers(players);
             UpdateHand();
-            this.DataContext = PlayerData;
         }
         private void OnClosed(object sender, EventArgs eventArgs)
         {
@@ -85,16 +84,29 @@ namespace GOUI
         {
             if (CardList.SelectedItem != null && PlayerList.SelectedItem != null)
             {
-                if (
-                    !_game.AskPlayer(PlayerData.Id, ((PlayerState) PlayerList.SelectedItem).Id,
-                        (CardList.SelectedItem as Card)))
+                try
                 {
-                    MessageBox.Show("FISH !!!");
+                    var hasCard = _game.AskPlayer(PlayerData.Id, ((PlayerState) PlayerList.SelectedItem).Id,
+                        (CardList.SelectedItem as Card));
+                    if (!hasCard)
+                    {
+                        MessageBox.Show("FISH !!!");
+                    }
+                    else
+                    {
+                        PlayerData.NumPairs++;
+                    }
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    PlayerData.NumPairs++;
+                    MessageBox.Show(ex.Message);
                 }
+
+            }
+            else
+            {
+                MessageBox.Show("Please Select a Player and a Card");
             }
         }
 
@@ -139,8 +151,26 @@ namespace GOUI
                     {
                         UpdateHand();
                     }
+                    this.DataContext = PlayerData;
+                    DeckBlock.Text = callback.CardsInDeck.ToString();
                     UpdatePlayers(callback.Players);
+                    if (callback.IsGameOver)
+                    {
+                        var end = "GameOver: ";
+                        if (callback.Winner == PlayerData.Id)
+                        {
+                            end += "You Win!!";
+
+                        }
+                        else
+                        {
+                            end += "You LOOSE";
+                        }
+
+                        MessageBox.Show(end);
+                    }
                 };
+
             }
             else
             {
