@@ -86,9 +86,8 @@ namespace GOGameLogic
 
             foreach (var player in Players)
             {
-                player.Hand.Clear();
-
-                foreach (var card in Deck.Draw(cardCount))
+                int draw = cardCount - player.Hand.Count;
+                foreach (var card in Deck.Draw(draw))
                 {
                     player.Hand.Add(card as Card);
                     CallBack.Winner = player.Id;
@@ -100,7 +99,7 @@ namespace GOGameLogic
         {
             GoCallback cb;
 
-            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = CallBack.Winner} : CallBack;
+            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = CallBack.Winner } : CallBack;
 
             foreach (var clientCallback in ClientCallbacks.Values)
             {
