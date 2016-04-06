@@ -33,6 +33,11 @@ namespace GOGameLogic
                 player.Hand.Add(playerCard);
                 targetPlayer.Hand.Remove(playerCard);
             }
+
+            if (!player.Hand.Any())
+            {
+                EndGame();
+            }
         }
 
         public override PlayerState CreatePlayer(string name)
@@ -77,6 +82,14 @@ namespace GOGameLogic
                 {
                     player.Hand.Add(card);
                 }
+            }
+        }
+
+        private void EndGame()
+        {
+            foreach (var clientCallback in ClientCallbacks)
+            {
+                clientCallback.Value.IsGameOver = true;
             }
         }
     }
