@@ -126,15 +126,26 @@ namespace GOUI
             PlayerList.DataContext = Players;
         }
 
+        private delegate void ClientUpdateDelegate(GoCallback callback);
         public void UpdateGameState(GoCallback callback)
         {
-            if (PlayerData == null) return;
-            var currentPlayer = callback.Players.Find(p => p.Id.Equals(PlayerData.Id));
-            if (currentPlayer.NumHand != PlayerData.NumHand || currentPlayer.NumPairs != PlayerData.NumPairs)
+
+            if (System.Threading.Thread.CurrentThread == this.Dispatcher.Thread)
             {
-                UpdateHand();
+                if (PlayerData != null)
+                {
+                    var currentPlayer = callback.Players.Find(p => p.Id.Equals(PlayerData.Id));
+                    if (currentPlayer.NumHand != PlayerData.NumHand || currentPlayer.NumPairs != PlayerData.NumPairs)
+                    {
+                        UpdateHand();
+                    }
+                    UpdatePlayers(callback.Players);
+                };
             }
-            UpdatePlayers(callback.Players);
+            else
+            {
+                this.Dispatcher.BeginInvoke(new ClientUpdateDelegate(UpdateGameState), callback);
+            }
         }
     }
 }

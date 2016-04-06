@@ -33,6 +33,10 @@ namespace GOGameLogic
             var targetPlayer = Players.Find(c => c.Id.Equals(target));
             var cards = targetPlayer.Hand.Where(c => c.Rank.Equals(card.Rank));
             var hasCard = targetPlayer.HasCard(card);
+            if (hasCard == false)
+            {
+                player.Hand.Add(Deck.Draw() as Card);
+            }
             foreach (var playerCard in cards)
             {
                 player.Hand.Add(playerCard);
@@ -108,7 +112,7 @@ namespace GOGameLogic
 
             cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = CallBack.Winner } : CallBack;
 
-            foreach (var clientCallback in ClientCallbacks.Values)
+            foreach (ICallback clientCallback in ClientCallbacks.Values)
             {
                 clientCallback.UpdateGameState(cb);
             }
