@@ -23,16 +23,18 @@
                 <ColumnDefinition Width=".5*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="4" Grid.Column="0" TextAlignment="Left" Text="Name: "/>
-            <TextBlock Margin="4" Grid.Column="1" TextAlignment="Center" Text="{Binding Name, Mode=OneWay}"/>
+            <TextBox Margin="4" Grid.Column="1" x:Name="NameBox"  TextAlignment="Center" Text="{Binding Name, Mode=OneTime}"/>
             <TextBlock Margin="4" Grid.Column="2" TextAlignment="Right"  Text="Client ID: "/>
-            <TextBlock Margin="4" Grid.Column="3" TextAlignment="Center" Text="{Binding Id, Mode=OneWay}"/>
+            <TextBlock Margin="4" Grid.Column="3" TextAlignment="Center" Text="{Binding Id, Mode=OneTime}"/>
+            <Button Grid.Column="4" Margin="4"  x:Name="ConnectButton"  Click="ButtonBase_OnClick"  Content="Connect"></Button>
         </Grid>
 
         <ListView Grid.Column="1" Grid.Row="1" Margin="4" x:Name="PlayerList" ItemsSource="{Binding Mode=OneWay}"></ListView>
 
-        <ListView Grid.Column="0" Grid.Row="1" Margin="4" x:Name="CardList" ItemsSource="{Binding Hand}"></ListView>
+        <ListView Grid.Column="0" Grid.Row="1" Margin="4" x:Name="CardList" ItemsSource="{Binding Mode=OneWay}"></ListView>
         
         <Grid Grid.Column="2" Grid.Row="1" Margin="4">
             <Grid.RowDefinitions>
@@ -46,7 +48,7 @@
             <TextBlock Grid.Row="1" Margin="4" HorizontalAlignment="Center" Text="{Binding ElementName=PlayerList, Path=SelectedItem.Name, Mode=OneWay}"/>
             <TextBlock Grid.Row="2" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="If They Have A"/>
             <TextBlock Grid.Row="3" Margin="4" HorizontalAlignment="Center" Text="{Binding ElementName=CardList, Path=SelectedItem.Rank, Mode=OneWay}"/>
-            <Button Grid.Row="4" Margin="4" Content="Go"></Button>
+            <Button Grid.Row="4" Margin="4"  x:Name="AskButton"  Click="ButtonBase_OnClick"  Content="Go"></Button>
         </Grid>
         
         <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Margin="4">

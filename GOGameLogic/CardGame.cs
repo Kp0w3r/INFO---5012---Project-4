@@ -72,8 +72,11 @@ namespace GOGameLogic
 
         public List<Card> GetHand(Guid playerId)
         {
-            return Players.Find(p => p.Id.Equals(playerId)).Hand;
+            var player = Players.Find(p => p.Id.Equals(playerId)).Hand;
+            return player;
         }
+
+        public abstract bool AskPlayer(Guid self, Guid target, Card card);
 
         /// <summary>
         /// Deals cards to players in a manner aligned with the game type.

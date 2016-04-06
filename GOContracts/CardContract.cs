@@ -12,7 +12,6 @@ namespace GOContracts
     {
         Card.SuitID Suit { get; }
         Card.RankID Rank { get; }
-        String Name { get; }
     }
 
     [DataContract]

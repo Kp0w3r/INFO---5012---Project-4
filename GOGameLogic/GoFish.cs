@@ -26,11 +26,12 @@ namespace GOGameLogic
 
         public override int MaxPlayers { get; } = 6;
 
-        public void AskPlayer(Guid self, Guid target, Card card)
+        public override bool AskPlayer(Guid self, Guid target, Card card)
         {
             var player = Players.Find(c => c.Id.Equals(self));
             var targetPlayer = Players.Find(c => c.Id.Equals(target));
             var cards = targetPlayer.Hand.Where(c => c.Rank.Equals(card.Rank));
+            var hasCard = targetPlayer.HasCard(card);
             foreach (var playerCard in cards)
             {
                 player.Hand.Add(playerCard);
@@ -41,7 +42,10 @@ namespace GOGameLogic
             {
                 IsGameOver = true;
                 PerformCall();
+                return false;
             }
+
+            return hasCard;
         }
 
         public override PlayerState CreatePlayer(string name)
@@ -57,6 +61,8 @@ namespace GOGameLogic
             Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has joined the game.");
             Console.WriteLine("Players Left: " + Players.Count);
 
+
+            DealCards();
             PerformCall();
 
             return new PlayerState(player.Name, player.Id, player.Hand.Count(), 0);
