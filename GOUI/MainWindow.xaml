@@ -29,7 +29,7 @@
             <TextBox Margin="4" Grid.Column="1" x:Name="NameBox"  TextAlignment="Center" Text="{Binding Name, Mode=OneTime}"/>
             <TextBlock Margin="4" Grid.Column="2" TextAlignment="Right"  Text="Client ID: "/>
             <TextBlock Margin="4" Grid.Column="3" TextAlignment="Center" Text="{Binding Id, Mode=OneTime}"/>
-            <Button Grid.Column="4" Margin="4"  x:Name="ConnectButton"  Click="ButtonBase_OnClick"  Content="Connect"></Button>
+            <Button Grid.Column="4" Margin="4" Padding="4" x:Name="ConnectButton"  Click="ButtonBase_OnClick"  Content="Connect"></Button>
         </Grid>
 
         <ListView Grid.Column="1" Grid.Row="1" Margin="4" x:Name="PlayerList" ItemsSource="{Binding Mode=OneWay}"></ListView>
