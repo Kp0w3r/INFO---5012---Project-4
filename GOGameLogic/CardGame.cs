@@ -9,7 +9,7 @@ namespace GOGameLogic
 {
     public abstract class CardGame : IGame
     {
-        protected static Dictionary<Guid, GoCallback> ClientCallbacks;
+        protected static Dictionary<Guid, ICallback> ClientCallbacks;
 
         protected CardGame()
         {
@@ -25,6 +25,8 @@ namespace GOGameLogic
         /// Gets an <see cref="IList{IDeck}"/> containing the card decks played in the game.
         /// </summary>
         public Deck Deck { get; protected set; }
+
+        public abstract GoCallback CallBack { get; }
 
         /// <summary>
         /// Gets an <see cref="IEnumerable{IPlayer}"/> containing player information for all players in the game.

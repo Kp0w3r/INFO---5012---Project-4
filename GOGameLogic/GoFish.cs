@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using GOContracts;
@@ -15,9 +16,11 @@ namespace GOGameLogic
         public GoFish()
         {
             Players = new List<Player>();
-            ClientCallbacks = new Dictionary<Guid, GoCallback>();
+            ClientCallbacks = new Dictionary<Guid, ICallback>();
             Deck = new Deck();
         }
+
+        public override GoCallback CallBack => new GoCallback(this.Deck.NumCards, PlayerStates);
 
         public override int MinPlayers { get; } = 2;
 
@@ -36,7 +39,7 @@ namespace GOGameLogic
 
             if (!player.Hand.Any())
             {
-                EndGame();
+                PerformCall();
             }
         }
 
@@ -45,7 +48,9 @@ namespace GOGameLogic
             var player = new Player(name);
             Players.Add(player);
 
-            ClientCallbacks.Add(player.Id, new GoCallback(Deck.NumCards, PlayerStates));
+            ICallback cb = OperationContext.Current.GetCallbackChannel<ICallback>();
+
+            ClientCallbacks.Add(player.Id, cb);
 
 
             Console.WriteLine("Player " + player.Name + "(" + player.Id + ") has joined the game.");
@@ -85,11 +90,11 @@ namespace GOGameLogic
             }
         }
 
-        private void EndGame()
+        private void PerformCall()
         {
-            foreach (var clientCallback in ClientCallbacks)
+            foreach (var clientCallback in ClientCallbacks.Values)
             {
-                clientCallback.Value.IsGameOver = true;
+                clientCallback.UpdateGameState(CallBack);
             }
         }
     }
