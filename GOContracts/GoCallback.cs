@@ -21,6 +21,9 @@ namespace GOContracts
         [DataMember]
         public int CardsInDeck { get; private set; }
 
+        [DataMember]
+        public bool IsGameOver { get; set; }      
+
         public GoCallback(int cardsInDeck, List<PlayerState> players)
         {
             this.CardsInDeck = cardsInDeck;
