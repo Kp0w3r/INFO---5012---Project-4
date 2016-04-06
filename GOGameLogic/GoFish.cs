@@ -31,8 +31,8 @@ namespace GOGameLogic
         {
             var player = Players.Find(c => c.Id.Equals(self));
             var targetPlayer = Players.Find(c => c.Id.Equals(target));
-            var cards = targetPlayer.Hand.Where(c => c.Rank.Equals(card.Rank));
-            var hasCard = targetPlayer.HasCard(card);
+            var cards = targetPlayer.Hand.Where(c => c.Rank.Equals(card.Rank)).ToList();
+            var hasCard = (cards.Any());
             if (hasCard == false)
             {
                 player.Hand.Add(Deck.Draw() as Card);
@@ -42,11 +42,11 @@ namespace GOGameLogic
                 player.Hand.Add(playerCard);
                 targetPlayer.Hand.Remove(playerCard);
             }
+            PerformCall();
 
-            if (!player.Hand.Any())
+            if (Deck.NumCards == 0)
             {
                 IsGameOver = true;
-                PerformCall();
                 return false;
             }
 
@@ -93,7 +93,7 @@ namespace GOGameLogic
 
         protected override void DealCards()
         {
-            int cardCount = (Players.Count == 2) ? CardCount2Players : CardCountMorePlayers;
+            int cardCount = (Players.Count <= 2) ? CardCount2Players : CardCountMorePlayers;
 
             foreach (var player in Players)
             {
@@ -101,7 +101,6 @@ namespace GOGameLogic
                 foreach (var card in Deck.Draw(draw))
                 {
                     player.Hand.Add(card as Card);
-                    CallBack.Winner = player.Id;
                 }
             }
         }
@@ -109,13 +108,17 @@ namespace GOGameLogic
         private void PerformCall()
         {
             GoCallback cb;
-
-            cb = IsGameOver ? new GoCallback(Deck.NumCards, PlayerStates) { IsGameOver = true, Winner = CallBack.Winner } : CallBack;
-
-            foreach (ICallback clientCallback in ClientCallbacks.Values)
+            var finalStates = PlayerStates;
+            finalStates.Sort((p1, p2) => p1.NumHand.CompareTo(p2.NumHand));
+            cb = IsGameOver ? new GoCallback(Deck.NumCards, finalStates) { IsGameOver = true, Winner = finalStates.First().Id} : CallBack;
+            if (ClientCallbacks.Count > 0)
             {
-                clientCallback.UpdateGameState(cb);
+                foreach (ICallback clientCallback in ClientCallbacks.Values)
+                {
+                    clientCallback.UpdateGameState(cb);
+                }
             }
+
         }
     }
 }
